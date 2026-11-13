@@ -13,9 +13,10 @@
 ```bash
 cd /root
 git clone https://github.com/GetRichPills/QYAI-autodl.git
-python3 QYAI-autodl/check_env.py
+/root/ComfyUI-h3/.venv/bin/python QYAI-autodl/check_env.py
 ```
 
+实例内没有系统级 `python3`，请使用 ComfyUI 虚拟环境解释器 `/root/ComfyUI-h3/.venv/bin/python`。
 `check_env.py` 会打印 Python / PyTorch / CUDA 版本，校验 ComfyUI 目录、工作流密文以及面板健康状态。
 核心项全部通过时退出码为 0。
 

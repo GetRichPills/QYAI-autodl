@@ -53,7 +53,7 @@ def main():
         ok("panel", False, "面板未运行（提示项，不影响退出码；开机后执行 bash /root/boot.sh 即可）", fatal=False)
 
     passed = sum(1 for r in results if r)
-    print(f"\n{passed}/{len(results)} 项通过")
+    print(f"\n核心项 {passed}/{len(results)} 通过")
     return 0 if passed == len(results) else 1
 
 

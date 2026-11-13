@@ -8,6 +8,19 @@
 - 轻语AI 面板：`/root/panel`，监听 `0.0.0.0:6008`，健康检查 `GET /api/health`
 - 工作流以 `.wfj` 密文形式存放于 `ComfyUI/user/default/workflows/`，面板运行期在内存解密
 
+## 开机与访问
+
+实例开机后需执行一次启动脚本（面板会自行拉起并监管 ComfyUI）：
+
+```bash
+bash /root/boot.sh
+```
+
+建议在 AutoDL 控制台把「开机执行命令」设为 `bash /root/boot.sh`，否则新实例开机后面板与 ComfyUI 不会自动启动。
+
+- 面板：`http://<实例地址>:6008`，健康检查 `GET /api/health`
+- ComfyUI：`http://<实例地址>:6006`，首次启动约需 10~60 秒，`/api/comfy/status` 变为 `ready` 后可用
+
 ## 环境自检
 
 ```bash

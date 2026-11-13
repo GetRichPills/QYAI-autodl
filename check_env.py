@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""QYAI AutoDL 镜像环境自检。核心项全部通过时退出码为 0。"""
+"""QYAI AutoDL 镜像环境自检。核心项全部通过时退出码为 0。
+
+核心项：python / torch / ComfyUI 目录 / 工作流密文
+提示项：面板健康检查（未启动不影响退出码，开机后执行 bash /root/boot.sh 即可）
+"""
 import glob
 import json
 import os
@@ -11,8 +15,9 @@ PANEL_HEALTH = "http://127.0.0.1:6008/api/health"
 WF_DIR = os.path.join(COMFY, "user", "default", "workflows")
 
 
-def ok(name, passed, detail=""):
-    print(f"[{'PASS' if passed else 'FAIL'}] {name}" + (f" -> {detail}" if detail else ""))
+def ok(name, passed, detail="", fatal=True):
+    tag = "PASS" if passed else ("FAIL" if fatal else "WARN")
+    print(f"[{tag}] {name}" + (f" -> {detail}" if detail else ""))
     return passed
 
 
@@ -43,9 +48,9 @@ def main():
     try:
         with urllib.request.urlopen(PANEL_HEALTH, timeout=5) as resp:
             body = json.loads(resp.read().decode("utf-8"))
-        results.append(ok("panel", resp.status == 200, f"HTTP {resp.status} {body}"))
-    except Exception as exc:
-        results.append(ok("panel", False, repr(exc)))
+        ok("panel", resp.status == 200, f"HTTP {resp.status} {body}", fatal=False)
+    except Exception:
+        ok("panel", False, "面板未运行（提示项，不影响退出码；开机后执行 bash /root/boot.sh 即可）", fatal=False)
 
     passed = sum(1 for r in results if r)
     print(f"\n{passed}/{len(results)} 项通过")

@@ -10,13 +10,14 @@
 
 ## 开机与访问
 
-实例开机后需执行一次启动脚本（面板会自行拉起并监管 ComfyUI）：
+开机启动方式按平台区分：
 
-```bash
-bash /root/boot.sh
-```
+| 平台 | 开机时 | 你需要做什么 |
+|---|---|---|
+| `https://www.autodl.com/` | 默认**没有**开机启动命令 | 开机后手动执行一次 `bash /root/boot.sh` |
+| `https://www.autodl.art/` | 默认**带**开机运行脚本，环境自动拉起 | 无需执行，直接访问端口 |
 
-建议在 AutoDL 控制台把「开机执行命令」设为 `bash /root/boot.sh`，否则新实例开机后面板与 ComfyUI 不会自动启动。
+`bash /root/boot.sh` 会拉起面板，之后由面板启动并监管 ComfyUI。
 
 - 面板：`http://<实例地址>:6008`，健康检查 `GET /api/health`
 - ComfyUI：`http://<实例地址>:6006`，首次启动约需 10~60 秒，`/api/comfy/status` 变为 `ready` 后可用
